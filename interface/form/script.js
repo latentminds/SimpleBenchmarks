@@ -12,8 +12,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const questionsPath = getQueryParam('questions');
         const answersPath = getQueryParam('answers');
 
-        const questions = await fetch(questionsPath);
-        const answers = await fetch(answersPath);
+        const decodedQuestions = decodeURIComponent(questionsPath);
+        const decodedAnswers = decodeURIComponent(answersPath);
+
+        const questions = await fetch(decodedQuestions);
+        const answers = await fetch(decodedAnswers);
         
         const questions_data = await questions.json();
         const answers_data = await answers.json();
@@ -57,16 +60,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             responseElement.className = 'response';
             responseElement.textContent = response.text;
 
-            const parentDiv = document.createElement('div');
-            parentDiv.className = 'response_pct';
-            parentDiv.style.width = `${response_pct*100}%`
-
-            const parentparentDiv = document.createElement('div');
-
-            parentDiv.appendChild(responseElement);
-            parentparentDiv.appendChild(parentDiv);
-            parentparentDiv.style.width = "2000px";
-            questionElement.appendChild(parentparentDiv);
+            const sliderElement = document.createElement('div');
+            sliderElement.className = 'response_pct';
+            sliderElement.style.width = `${response_pct*800}px`
+            
+            const answerCont = document.createElement('div');
+            answerCont.className = 'answerCont';
+            
+            answerCont.appendChild(sliderElement);
+            answerCont.appendChild(responseElement);
+            
+            questionElement.appendChild(answerCont);
 
         }
 
