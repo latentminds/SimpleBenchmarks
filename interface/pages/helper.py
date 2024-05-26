@@ -14,31 +14,31 @@ import numpy as np
 from io import BytesIO
 
 # Fonction pour charger tous les objets JSON dans un dossier
-def load_valuation_objects(folder_path):
-    json_valuations = {}
-    for root, dirs, files in os.walk(os.path.abspath(folder_path)):
-        for file in files:
-            if file.endswith('.json') and "checkpoint" not in file:
-                file_path = os.path.join(root, file)
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    json_valuations[file] = data
-    return json_valuations
-
-# Fonction pour charger tous les objets JSON dans le dossier courant
 # def load_valuation_objects(folder_path):
 #     json_valuations = {}
-#     for file in os.listdir(folder_path):
-#         if file.endswith('.json') and "checkpoint" not in file:
-#             file_path = os.path.join(folder_path, file)
-#             with open(file_path, 'r', encoding='utf-8') as f:
-#                 data = json.load(f)
-#                 json_valuations[file] = data
+#     for root, dirs, files in os.walk(os.path.abspath(folder_path)):
+#         for file in files:
+#             if file.endswith('.json') and "checkpoint" not in file:
+#                 file_path = os.path.join(root, file)
+#                 with open(file_path, 'r', encoding='utf-8') as f:
+#                     data = json.load(f)
+#                     json_valuations[file] = data
 #     return json_valuations
+
+#Fonction pour charger tous les objets JSON dans le dossier courant
+def load_valuation_objects(folder_path):
+    json_valuations = {}
+    for file in os.listdir(folder_path):
+        if file.endswith('.json') and "checkpoint" not in file:
+            file_path = os.path.join(folder_path, file)
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                json_valuations[file] = data
+    return json_valuations
 
 # Fonction pour créer le graphique en étoile pour les traits de personnalité
 def create_star_graph(traits, title):
-    fig, ax = plt.subplots(figsize=(2, 2), subplot_kw=dict(polar=True))  # Réduire la taille du graphique
+    fig, ax = plt.subplots(figsize=(5, 5), subplot_kw=dict(polar=True))  # Réduire la taille du graphique
     traits_names = list(traits.keys())
     angles = np.linspace(0, 2 * np.pi, len(traits_names), endpoint=False).tolist()
     angles += angles[:1]
@@ -48,8 +48,7 @@ def create_star_graph(traits, title):
     ax.plot(angles, values, color='blue', linewidth=2)
     ax.set_yticklabels([])
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(traits_names, fontsize=8)  # Réduire la taille de la police des labels
-    ax.set_title(title, size=10, color='blue', y=1.1)  # Réduire la taille de la police du titre
+    ax.set_xticklabels(traits_names, fontsize=20)  # Réduire la taille de la police des labels
     return fig
 
 # Fonction pour calculer la somme des scores pour chaque trait

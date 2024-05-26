@@ -1,0 +1,123 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .category {
+            margin-bottom: 200px;
+        }
+
+        .answerCont {
+            width: 100%;
+            margin-left: 2em;
+        }
+
+        #quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+            margin-top: 50px;
+        }
+
+        .question h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .response {
+            margin: 5px 0;
+            z-index: 2;
+            position: relative;
+            padding-right: 1em;
+        }
+
+        .response_pct {
+            background-color: #a4ffa4;
+            z-index: 0;
+            height: 1em;
+            position: absolute;
+        }
+    </style>
+</head>
+    
+<body>
+    <div id="quiz-container"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('quiz-container');
+
+    try {
+        Object.keys(questions_data).forEach(category => {
+
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'category';
+
+            const categoryTitle = document.createElement('h1');
+            categoryTitle.textContent = category;
+            categoryElement.appendChild(categoryTitle);
+
+            for(let i = 0; i < questions_data[category].length; i++) {
+                questionData = questions_data[category][i]
+                answersData = answers_data[category][i]
+
+                const questionElement = createQuestionElement(questionData, answersData);
+                categoryElement.appendChild(questionElement);
+            }
+
+            container.appendChild(categoryElement);
+        });
+    } catch (error) {
+        console.error('Error fetching JSON data:', error);
+    }
+
+    function createQuestionElement(questionData, answersData) {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+
+        const questionTitle = document.createElement('h3');
+        questionTitle.textContent = questionData.question;
+        questionElement.appendChild(questionTitle);
+
+        for(let i = 0; i < questionData.responses.length; i++) {
+            response = questionData.responses[i]
+            response_pct = answersData[i]
+
+            const responseElement = document.createElement('div');
+            responseElement.className = 'response';
+            responseElement.textContent = response.text;
+
+            const sliderElement = document.createElement('div');
+            sliderElement.className = 'response_pct';
+            sliderElement.style.width = `${response_pct*800}px`
+            
+            const answerCont = document.createElement('div');
+            answerCont.className = 'answerCont';
+            
+            answerCont.appendChild(sliderElement);
+            answerCont.appendChild(responseElement);
+            
+            questionElement.appendChild(answerCont);
+
+        }
+
+        return questionElement;
+    };
+
+    });
+    </script>
+</body>
