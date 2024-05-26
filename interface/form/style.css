@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.category {
+    margin-bottom: 200px;
+}
+
+#quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.question h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.response {
+    margin: 5px 0;
+}
+
+.response_pct {
+    background-color: #a4ffa4;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
